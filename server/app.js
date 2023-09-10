@@ -5,6 +5,7 @@ const app = express();
 import { config } from 'dotenv';
 import morgan from 'morgan';
 import userRoutes from './routes/user.routes.js'
+import errorMiddleware from './middlewares/errorhandler.js'
 config();
 app.use(express.json())
 app.use(morgan('dev'));
