@@ -7,7 +7,7 @@ const route = Router();
 route.post('/register',register);
 route.post('/login',login);
 route.get('/logout',logout);
-route.get('/aboutMe',isLoggedIn ,getProfile);
+route.get('/getProfile',isLoggedIn ,getProfile);
 
 
 export default route;
