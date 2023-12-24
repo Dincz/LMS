@@ -6,7 +6,7 @@ const connectionToDb = async() =>{
     try{
         console.log(process.env.MONGO_URI);
     const { connection } = await mongoose.connect(
-        process.env.MONGO_URI || `mongodb://localhost:27017`
+        process.env.MONGO_URI 
     );
     if(connection){
         console.log(`Connected to Db:${connection.host}`);

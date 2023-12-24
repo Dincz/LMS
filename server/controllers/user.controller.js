@@ -3,6 +3,9 @@ import AppError from '../utils/error.js'
 import User from '../models/user.model.js'
 import bcrypt from 'bcryptjs'
 import { token } from "morgan";
+import cloudinary from 'cloudinary'
+import fs from 'fs/promises'
+import sendEmail from "../utils/sendEmail.js";
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7days
     httpOnly:true,
@@ -23,12 +26,36 @@ const register = async(req, res, next) =>{
     email,
     avatar:{
         public_id: email,
-        secure_url: 'wwww.google.com'
+        secure_url: 'https://unsplash.com/photos/vXInUOv1n84'
     }
    });
 
    if(!user){
         return next(new AppError("User Registration failed" , 400));
+   }
+   console.log("FINE")
+//    console.log("FINE"+JSON.stringify(req.file))
+//    console.log("FINE"+req.file)
+   if(req.file){
+    console.log("inside if ")
+    try {
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+            folder: "lms",
+            width: 250,
+            height: 250,
+            gravity: "faces",
+            crop: "fill"
+        });
+        if(result){
+            user.avatar.public_id = result.public_id;
+            user.avatar.secure_url = result.secure_url;
+
+             fs.rm( `uploads/${req.file.filename}`)
+        }
+    } catch (e) {
+        console.log(e)
+        return next(e || new AppError('File upload failed',500)); 
+    }
    }
 
    await user.save();
@@ -106,9 +133,55 @@ const getProfile = async(req, res) =>{
 
 };
 
+const forgotPassword = async (req, res, next) => {
+    const{ email } = req.body;
+
+    if(!email){
+       return next(new AppError("Email is required", 400));
+    }
+
+    const user = await User.findOne({email});
+    if(!user){
+       return next(new AppError("Email is not registered", 400));
+    }
+    console.log("All good")
+    const resetToken = await user.generatePasswordResetToken();
+    console.log("resetTOken" + resetToken)
+    await user.save();
+
+    const resetPasswordURL = `/reset-password/${resetToken}`; //later add frontend url
+
+    const subject = "Reset Password"
+    const message = `you can reset your password by clicking <a href=${resetPasswordURL} target= "_blank">Reset your password</a>\nIf the above link does not work for some reason then copy paste this link in new tab ${resetPasswordURL}.\n If you have not requested this, kindly ignore. `
+    console.log("all fineeeeeeeee")
+    try{
+    console.log("all finee44444444444eeeeeee")
+       await sendEmail(email, subject, message);
+
+       res.status(200).json({
+           success: true,
+           message: `Reset password token has been sent to ${email} successfully`
+       })
+    }catch(e){
+        console.log("nope::::::::::::")
+       user.forgotPasswordExpiry = undefined;
+       user.forgotPasswordToken = undefined;
+
+       await user.save();
+       return next(new AppError(e.message, 500));
+
+   }
+}
+
+
+const resetPassword = async(req, res) =>{
+    
+}
 export {
     register,
     login,
     logout,
-    getProfile
+    getProfile,
+    forgotPassword,
+    resetPassword
 }
