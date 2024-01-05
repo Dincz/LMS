@@ -16,7 +16,6 @@ const userSchema = new Schema({
     password:{
         type:'String',
         trim:true,
-        lowercase:true,
         select:false
     },
     avatar:{
@@ -47,7 +46,6 @@ userSchema.pre('save', async function(next){
 });
 userSchema.methods = {
     generateJWTToken: async function(){
-        console.log("NOOOOOOOOOOOOOOO"+process.env.JWT_SECRET)
         return await jwt.sign(
             { id: this._id, email: this.email, subscription: this.subscription, role: this.role },
             process.env.JWT_SECRET,

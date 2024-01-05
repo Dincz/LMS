@@ -12,7 +12,10 @@ cloudinary.v2.config({
 
 
 
+
 app.listen(PORT,async()=>{
     await connectionToDb();
     console.log(`App is running on ${PORT}`)
 });
+
+

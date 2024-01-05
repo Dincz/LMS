@@ -8,6 +8,8 @@ import userRoutes from './routes/user.routes.js'
 import errorMiddleware from './middlewares/errorhandler.js'
 config();
 app.use(express.json())
+
+app.use(express.urlencoded({extended:true}))
 app.use(morgan('dev'));
 //allowing the frontend to send req to backend from different server
 app.use(cors({
