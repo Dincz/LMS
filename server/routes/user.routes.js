@@ -6,7 +6,7 @@ const route = Router();
 
 route.post('/register',upload.single("avatar"),register);
 route.post('/login',login);
-route.get('/logout',logout);
+route.post('/logout',logout);
 route.get('/getProfile',isLoggedIn ,getProfile);
 route.post('/reset', forgotPassword);
 route.post("/reset-token/:resetToken", resetPassword);

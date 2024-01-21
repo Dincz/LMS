@@ -5,6 +5,7 @@ const app = express();
 import { config } from 'dotenv';
 import morgan from 'morgan';
 import userRoutes from './routes/user.routes.js'
+import mailRoutes from './routes/mail.routes.js'
 import courseRoutes from './routes/course.routes.js'
 import paymentRoutes from './routes/payment.route.js'
 import errorMiddleware from './middlewares/errorhandler.js'
@@ -26,6 +27,7 @@ app.use('/ping',(req,res)=>{
 });
 
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1', mailRoutes);
 app.use('/api/v1/course', courseRoutes);
 app.use('/api/v1/payment', paymentRoutes);
 

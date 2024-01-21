@@ -163,9 +163,7 @@ const forgotPassword = async (req, res, next) => {
 
     const subject = "Reset Password"
     const message = `you can reset your password by clicking <a href=${resetPasswordURL} target= "_blank">Reset your password</a>\nIf the above link does not work for some reason then copy paste this link in new tab ${resetPasswordURL}.\n If you have not requested this, kindly ignore. `
-    console.log("all fineeeeeeeee")
     try{
-    console.log("all finee44444444444eeeeeee")
        await sendEmail(email, subject, message);
 
        res.status(200).json({
@@ -179,7 +177,6 @@ const forgotPassword = async (req, res, next) => {
 
        await user.save();
        return next(new AppError(e.message, 500));
-
    }
 }
 
