@@ -256,7 +256,7 @@ const changePassword =async (req, res, next)=>{
 
 const updateUser = async (req, res, next) => {
     const { id } = req.params;
-    const { fullname } = req.body;
+    const { fullName } = req.body;
 
     const user = await User.findById(id);
     if(!user){
@@ -265,17 +265,16 @@ const updateUser = async (req, res, next) => {
 
         )
     }
-    console.log("--"+fullname);
+    console.log("--"+fullName);
     
-    if(!fullname && !req.file){
+    if(!fullName && !req.file){
         return next(
             new AppError("Nothing to Update", 400)
         )
     }
 
-
-    if(fullname){
-        user.fullName = fullname;
+    if(fullName){
+        user.fullName = fullName;
     }
 
     if (req.file) {
