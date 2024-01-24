@@ -7,7 +7,7 @@ import AboutUs from './Pages/AboutUs.jsx';
 import Contact from './Pages/ContactUs.jsx';
 import CourseDescription from './Pages/Course/CourseDescription';
 import CourseList from './Pages/Course/CourseList';
-import CreateCourse from './Pages/Course/CreateCourse';
+import CreateCourse from './Pages/Course/CreateCourse.jsx';
 import Denied from './Pages/Denied.jsx';
 import HomePage from './Pages/HomePage.jsx';
 import Login from './Pages/Login.jsx';
