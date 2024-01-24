@@ -5,9 +5,9 @@ import { Route, Routes } from 'react-router-dom';
 import RequireAuth from './Components/Auth/requireAuth.jsx'
 import AboutUs from './Pages/AboutUs.jsx';
 import Contact from './Pages/ContactUs.jsx';
-import CourseDescription from './Pages/Course/CourseDescription';
-import CourseList from './Pages/Course/CourseList';
-import CreateCourse from './Pages/Course/CreateCourse';
+import CourseDescription from './Pages/Course/CourseDescription.jsx';
+import CourseList from './Pages/Course/CourseList.jsx';
+import CreateCourse from './Pages/Course/CreateCourse.jsx';
 import Denied from './Pages/Denied.jsx';
 import HomePage from './Pages/HomePage.jsx';
 import Login from './Pages/Login.jsx';
