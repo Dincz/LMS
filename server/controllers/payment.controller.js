@@ -8,7 +8,7 @@ export const getRazorpayApiKey = async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: "Razarpay API key",
-        key: process.env.RAZORPAY_KEY_ID,
+        key: process.env.RAZORPAY_KEY_ID
     });
 };
 
@@ -47,6 +47,8 @@ export const buySubscription = async (req, res, next) => {
 };
 
 export const verifySubscription = async (req, res, next) => {
+    console.log("verify    "+ req.body);
+    console.log("verify    "+ JSON.stringify(req.body));
     try {
         const { id } = req.user;
         const {
@@ -56,6 +58,9 @@ export const verifySubscription = async (req, res, next) => {
         } = req.body;
 
         const user = await User.findById(id);
+        console.log("user "+
+         user.subscription.id);
+        
         if (!user) {
             return next(new AppError("Unauthorized, please login"));
         }
@@ -66,7 +71,9 @@ export const verifySubscription = async (req, res, next) => {
             .createHmac("sha256", process.env.RAZORPAY_SECRET)
             .update(`${razorpay_payment_id}|${subscriptionID}`)
             .digest("hex");
-
+        console.log("rp"+ generatedSignature);
+        console.log("rp"+ razorpay_signature);
+        
         if (generatedSignature !== razorpay_signature) {
             return next(new AppError("Payment not verified please try again", 500));
         }
